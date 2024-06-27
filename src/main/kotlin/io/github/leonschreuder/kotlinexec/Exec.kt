@@ -24,7 +24,8 @@ fun exec(
     stdIn: String = "",
     captureOutput: Boolean = false,
     workingDir: File = File("."),
-    redirectErrToOut: Boolean = false
+    redirectErrToOut: Boolean = false,
+    environmentVariables: Map<String, String> = mapOf()
 ): ExecResult {
     try {
         val process =
@@ -39,6 +40,8 @@ fun exec(
 
                     redirectOutput(redirection)
                     redirectError(redirection)
+
+                    environment().putAll(environmentVariables)
                 }
                 .start()
         if (stdIn != "") {
